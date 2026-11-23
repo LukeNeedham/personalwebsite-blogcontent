@@ -1,0 +1,50 @@
+name: Check and publish
+
+on:
+  workflow_dispatch: {}
+  pull_request: {}
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    # Builds the articles with the site's own build step, so the check can never differ from what the site does
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: content
+      - uses: actions/checkout@v4
+        with:
+          repository: LukeNeedham/PersonalWebsite
+          path: site
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: yarn
+          cache-dependency-path: site/yarn.lock
+      - run: yarn install --frozen-lockfile
+        working-directory: site
+      - run: yarn generate
+        working-directory: site
+        env:
+          BLOG_CONTENT_DIR: ${{ github.workspace }}/content
+
+  publish:
+    # Only a change that has reached main, and passed the check, rebuilds the site
+    if: github.event_name == 'push' || github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main'
+    needs: check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ask Vercel to rebuild the site
+        env:
+          HOOK: ${{ secrets.VERCEL_DEPLOY_HOOK_URL }}
+        run: |
+          if [ -z "$HOOK" ]; then
+            echo "::error::The repo secret VERCEL_DEPLOY_HOOK_URL is not set: see the README."
+            exit 1
+          fi
+          curl --fail --silent --show-error -X POST "$HOOK"

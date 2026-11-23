@@ -1,0 +1,47 @@
+# Pages CMS (https://pagescms.org) configuration: lets the author edit the articles in a web editor.
+# The editor writes straight to this repo, so the data it writes must match what the site's build reads (see README).
+
+media:
+  input: images
+  # The path written into an article, relative to the article (articles/x.md refers to ../images/name.png),
+  # so that the image also shows in GitHub's own preview
+  output: ../images
+  categories: [image]
+  rename: safe
+
+content:
+  - name: articles
+    label: Articles
+    type: collection
+    path: articles
+    format: yaml-frontmatter
+    # The file name, which is the address of the article, is made from the title
+    filename: '{primary}.md'
+    view:
+      fields: [title, date]
+      primary: title
+      sort: [date, title]
+      default:
+        sort: date
+        order: desc
+    fields:
+      - name: title
+        label: Title
+        type: string
+        required: true
+      - name: image
+        label: Thumbnail
+        type: image
+        required: true
+        description: Shown in the list of articles.
+      - name: date
+        label: Date
+        type: date
+        required: true
+        options:
+          format: yyyy-MM-dd
+      - name: body
+        label: Article
+        type: rich-text
+        options:
+          format: markdown
