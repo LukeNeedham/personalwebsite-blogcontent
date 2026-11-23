@@ -1,11 +1,6 @@
 # Pages CMS (https://pagescms.org) configuration: lets the author edit the articles in a web editor.
 # The editor writes straight to this repo, so the data it writes must match what the site's build reads (see README).
 
-settings:
-  commit:
-    # Commits carry the name and email of whoever saved the article, not the app's
-    identity: user
-
 media:
   input: images
   # The path written into an article, relative to the article (articles/x.md refers to ../images/name.png),
