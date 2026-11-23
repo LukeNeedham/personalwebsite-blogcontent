@@ -4,6 +4,9 @@ The content of the blog of [lukeneedham.com](https://lukeneedham.com): every art
 they use. The site's code is in [PersonalWebsite](https://github.com/LukeNeedham/PersonalWebsite),
 which downloads this repo's `main` every time it is built.
 
+The blog articles are just markdown files in git. They can be edited directly as the files via git, or they can be edited
+via [Pages CMS](https://pagescms.org).
+
 ## Layout
 
 ```
@@ -42,7 +45,8 @@ The workflow needs the repo secret `VERCEL_DEPLOY_HOOK_URL`: a Deploy Hook of th
 
 ## Editing in a browser
 
-[Pages CMS](https://pagescms.org) edits the articles in a web editor: `.pages.yml` describes them to it. Sign in at
+[Pages CMS](https://pagescms.org) ([source](https://github.com/pages-cms/pages-cms), [docs](https://pagescms.org/docs/)) is a free,
+open-source web editor for the files of a GitHub repo. [`.pages.yml`](.pages.yml) describes the articles to it. Sign in at
 [app.pagescms.org](https://app.pagescms.org) and install its GitHub App on this repo. Someone without a GitHub account can
 be invited by email as a collaborator of the repo in Pages CMS. Every save is a commit to `main`, which publishes.
 
