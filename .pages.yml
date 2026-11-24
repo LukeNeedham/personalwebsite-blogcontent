@@ -40,6 +40,11 @@ content:
         required: true
         options:
           format: yyyy-MM-dd
+      - name: draft
+        label: Draft
+        type: boolean
+        description: A draft is saved here but not shown on the blog. Untick it to publish.
+        default: false
       - name: body
         label: Article
         type: rich-text
